@@ -1,8 +1,10 @@
-# iOS APP ICONS Generator
+# APP ICONS Generator
 
 ### Description
 Set of shell scripts which aim to generate iOS, macOS, Android APP icons easier and simply.
+
 ![image](https://github.com/smallmuou/ios-icon-generator/blob/master/ios-icon-generator.gif)
+
 <pre>
 VERSION: 1.0.1
 USAGE:
@@ -28,17 +30,16 @@ LICENSE:
 
 EXAMPLE:
     ./ios-icon-generator.sh 1024.png ~/123
-
 </pre>
 
 ### Usage
 1. Install ImageMagick
-	
-	Before you run this script, please check whether you had install ImageMagick. If you don't have install. Follow this:
+
+    Before you run this script, please check whether you had install ImageMagick. If you don't have install. Follow this:
 
 ```bash
 sudo brew install ImageMagick
-```	
+```
 
 2. Clone And Chmod
 
@@ -49,7 +50,7 @@ chmod 777 *.sh
 ```
 
 3. Run
-	
+
 ```bash
 $ ./ios-icon-generator.sh ~/Downloads/1024.png ~/output
 [INFO] Generate iTunesArtwork.png ...
@@ -88,15 +89,15 @@ Use it in this way `./ios-custom-icon-generator.sh icon-big.png ~/asset_dir 100`
 ### Refer
 * [App Icons on iPad and iPhone](https://developer.apple.com/library/ios/qa/qa1686/_index.html)
 * [iOS Human Interface Guidelines](https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/MobileHIG/IconMatrix.html#//apple_ref/doc/uid/TP40006556-CH27-SW1)
-	
+
 ### History
 * 1.0.1
-	* Android and macOS generators added.
+    * Android and macOS generators added.
 * 1.0.0
-	* Generate all size icons for iPhone and iPad.
+    * Generate all size icons for iPhone and iPad.
 
 ### License
 This script follow MIT license.
 
 ### Contact
-If you have any question with using it, you can email to me. My email is: lvyexuwenfa100@126.com
+If you have any question with using it, you can email to me. My email is: andrey@ugolnik.info
