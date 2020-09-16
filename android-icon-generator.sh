@@ -75,23 +75,24 @@ then
     exit -1
 fi
 
-# Check dst path whether exist.
-mkdir -p "$DST_PATH/mipmap-mdpi"
-mkdir -p "$DST_PATH/mipmap-hdpi"
-mkdir -p "$DST_PATH/mipmap-xhdpi"
-mkdir -p "$DST_PATH/mipmap-xxhdpi"
-mkdir -p "$DST_PATH/mipmap-xxxhdpi"
+makeIcon() {
+    LOUTPATH="$DST_PATH/$1"
+    LSIZE="$2"
 
-convert "$SRC_FILE" -resize 48x48! "$DST_PATH/mipmap-mdpi/ic_launcher.png"
-convert "$SRC_FILE" -resize 72x72! "$DST_PATH/mipmap-hdpi/ic_launcher.png"
-convert "$SRC_FILE" -resize 96x96! "$DST_PATH/mipmap-xhdpi/ic_launcher.png"
-convert "$SRC_FILE" -resize 144x144! "$DST_PATH/mipmap-xxhdpi/ic_launcher.png"
-convert "$SRC_FILE" -resize 192x192! "$DST_PATH/mipmap-xxxhdpi/ic_launcher.png"
+    # make destination path
+    mkdir -p "$LOUTPATH"
 
-convert "$SRC_FILE" -resize 48x48! \( +clone -threshold -1 -negate -fill white -draw "circle 24,24 24,0" \) -alpha off -compose copy_opacity -composite "$DST_PATH/mipmap-mdpi/ic_launcher_round.png"
-convert "$SRC_FILE" -resize 72x72! \( +clone -threshold -1 -negate -fill white -draw "circle 36,36 36,0" \) -alpha off -compose copy_opacity -composite "$DST_PATH/mipmap-hdpi/ic_launcher_round.png"
-convert "$SRC_FILE" -resize 96x96! \( +clone -threshold -1 -negate -fill white -draw "circle 48,48 48,0" \) -alpha off -compose copy_opacity -composite "$DST_PATH/mipmap-xhdpi/ic_launcher_round.png"
-convert "$SRC_FILE" -resize 144x144! \( +clone -threshold -1 -negate -fill white -draw "circle 72,72 72,0" \) -alpha off -compose copy_opacity -composite "$DST_PATH/mipmap-xxhdpi/ic_launcher_round.png"
-convert "$SRC_FILE" -resize 192x192! \( +clone -threshold -1 -negate -fill white -draw "circle 96,96 96,0" \) -alpha off -compose copy_opacity -composite "$DST_PATH/mipmap-xxxhdpi/ic_launcher_round.png"
+    # make rect icon
+    convert "$SRC_FILE" -resize $LSIZE! "$LOUTPATH/ic_launcher.png"
 
-info 'Generate Done.'
+    # make rounded icon
+    magick "$LOUTPATH/ic_launcher.png" \( +clone -threshold 101% -fill white -draw 'circle %[fx:int(w/2)],%[fx:int(h/2)] %[fx:int(w/2)],1' \) -channel-fx '| gray=>alpha' "$LOUTPATH/ic_launcher_round.png"
+}
+
+makeIcon "mipmap-mdpi" "48x48"
+makeIcon "mipmap-hdpi" "72x72"
+makeIcon "mipmap-xhdpi" "96x96"
+makeIcon "mipmap-xxhdpi" "144x144"
+makeIcon "mipmap-xxxhdpi" "192x192"
+
+info 'Generation completed.'
