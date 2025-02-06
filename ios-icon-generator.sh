@@ -1,17 +1,17 @@
 #!/bin/bash
 #
 # Copyright (C) 2014 Wenva <lvyexuwenfa100@126.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is furnished
 # to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,19 +28,19 @@ DST_PATH="$2"
 VERSION=1.0.0
 
 info() {
-     local green="\033[1;32m"
-     local normal="\033[0m"
-     echo -e "[${green}INFO${normal}] $1"
+    local green="\033[1;32m"
+    local normal="\033[0m"
+    echo -e "[${green}INFO${normal}] $1"
 }
 
 error() {
-     local red="\033[1;31m"
-     local normal="\033[0m"
-     echo -e "[${red}ERROR${normal}] $1"
+    local red="\033[1;31m"
+    local normal="\033[0m"
+    echo -e "[${red}ERROR${normal}] $1"
 }
 
 usage() {
-cat << EOF
+    cat <<EOF
 VERSION: $VERSION
 USAGE:
     $0 srcfile dstpath
@@ -66,75 +66,78 @@ EOF
 }
 
 # Check ImageMagick
-command -v convert >/dev/null 2>&1 || { error >&2 "The ImageMagick is not installed. Please use brew to install it first."; exit -1; }
+command -v magick >/dev/null 2>&1 || {
+    error >&2 "The ImageMagick is not installed. Please use brew to install it first."
+    exit -1
+}
 
 # Check param
-if [ $# != 2 ];then
+if [ $# != 2 ]; then
     usage
     exit -1
 fi
 
 # Check dst path whether exist.
-if [ ! -d "$DST_PATH" ];then
+if [ ! -d "$DST_PATH" ]; then
     mkdir -p "$DST_PATH"
 fi
 
 # Generate, refer to:https://developer.apple.com/library/ios/qa/qa1686/_index.html
 
 # info 'Generate iTunesArtwork.png ...'
-# convert "$SRC_FILE" -resize 512x512 "$DST_PATH/iTunesArtwork.png"
+# magick "$SRC_FILE" -resize 512x512 "$DST_PATH/iTunesArtwork.png"
 info 'Generate iTunesArtwork@2x.png ...'
-convert "$SRC_FILE" -resize 1024x1024 "$DST_PATH/iTunesArtwork@2x.png"
+magick "$SRC_FILE" -resize !1024x1024 "$DST_PATH/iTunesArtwork@2x.png"
 
 info 'Generate Icon-20.png ...'
-convert "$SRC_FILE" -resize 20x20 "$DST_PATH/Icon-20.png"
+magick "$SRC_FILE" -resize !20x20 "$DST_PATH/Icon-20.png"
 info 'Generate Icon-20@2x.png ...'
-convert "$SRC_FILE" -resize 40x40 "$DST_PATH/Icon-20@2x.png"
+magick "$SRC_FILE" -resize !40x40 "$DST_PATH/Icon-20@2x.png"
 info 'Generate Icon-20@3x.png ...'
-convert "$SRC_FILE" -resize 60x60 "$DST_PATH/Icon-20@3x.png"
+magick "$SRC_FILE" -resize !60x60 "$DST_PATH/Icon-20@3x.png"
 
 info 'Generate Icon-29.png ...'
-convert "$SRC_FILE" -resize 29x29 "$DST_PATH/Icon-29.png"
+magick "$SRC_FILE" -resize !29x29 "$DST_PATH/Icon-29.png"
 info 'Generate Icon-29@2x.png ...'
-convert "$SRC_FILE" -resize 58x58 "$DST_PATH/Icon-29@2x.png"
+magick "$SRC_FILE" -resize !58x58 "$DST_PATH/Icon-29@2x.png"
 info 'Generate Icon-29@3x.png ...'
-convert "$SRC_FILE" -resize 87x87 "$DST_PATH/Icon-29@3x.png"
+magick "$SRC_FILE" -resize !87x87 "$DST_PATH/Icon-29@3x.png"
 
 info 'Generate Icon-40.png ...'
-convert "$SRC_FILE" -resize 40x40 "$DST_PATH/Icon-40.png"
+magick "$SRC_FILE" -resize !40x40 "$DST_PATH/Icon-40.png"
 info 'Generate Icon-40@2x.png ...'
-convert "$SRC_FILE" -resize 80x80 "$DST_PATH/Icon-40@2x.png"
+magick "$SRC_FILE" -resize !80x80 "$DST_PATH/Icon-40@2x.png"
 info 'Generate Icon-40@3x.png ...'
-convert "$SRC_FILE" -resize 120x120 "$DST_PATH/Icon-40@3x.png"
+magick "$SRC_FILE" -resize !120x120 "$DST_PATH/Icon-40@3x.png"
 
 # info 'Generate Icon-60.png ...'
-# convert "$SRC_FILE" -resize 60x60 "$DST_PATH/Icon-60.png"
+# magick "$SRC_FILE" -resize !60x60 "$DST_PATH/Icon-60.png"
 info 'Generate Icon-60@2x.png ...'
-convert "$SRC_FILE" -resize 120x120 "$DST_PATH/Icon-60@2x.png"
+magick "$SRC_FILE" -resize !120x120 "$DST_PATH/Icon-60@2x.png"
 info 'Generate Icon-60@3x.png ...'
-convert "$SRC_FILE" -resize 180x180 "$DST_PATH/Icon-60@3x.png"
+magick "$SRC_FILE" -resize !180x180 "$DST_PATH/Icon-60@3x.png"
 
 info 'Generate Icon-76.png ...'
-convert "$SRC_FILE" -resize 76x76 "$DST_PATH/Icon-76.png"
+magick "$SRC_FILE" -resize !76x76 "$DST_PATH/Icon-76.png"
 info 'Generate Icon-76@2x.png ...'
-convert "$SRC_FILE" -resize 152x152 "$DST_PATH/Icon-76@2x.png"
+magick "$SRC_FILE" -resize !152x152 "$DST_PATH/Icon-76@2x.png"
 
 # info 'Generate Icon-57.png ...'
-# convert "$SRC_FILE" -resize 57x57 "$DST_PATH/Icon-57.png"
+# magick "$SRC_FILE" -resize !57x57 "$DST_PATH/Icon-57.png"
 # info 'Generate Icon-57@2x.png ...'
-# convert "$SRC_FILE" -resize 114x114 "$DST_PATH/Icon-57@2x.png"
+# magick "$SRC_FILE" -resize !114x114 "$DST_PATH/Icon-57@2x.png"
 
 info 'Generate Icon-83.5@2x.png ...'
-convert "$SRC_FILE" -resize 167x167 "$DST_PATH/Icon-83.5@2x.png"
+magick "$SRC_FILE" -resize !167x167 "$DST_PATH/Icon-83.5@2x.png"
 
 # info 'Generate Icon-72.png ...'
-# convert "$SRC_FILE" -resize 72x72 "$DST_PATH/Icon-72.png"
+# magick "$SRC_FILE" -resize !72x72 "$DST_PATH/Icon-72.png"
 # info 'Generate Icon-72@2x.png ...'
-# convert "$SRC_FILE" -resize 144x144 "$DST_PATH/Icon-72@2x.png"
+# magick "$SRC_FILE" -resize !144x144 "$DST_PATH/Icon-72@2x.png"
 
 # info 'Generate Icon-50.png ...'
-# convert "$SRC_FILE" -resize 50x50 "$DST_PATH/Icon-50.png"
+# magick "$SRC_FILE" -resize !50x50 "$DST_PATH/Icon-50.png"
 # info 'Generate Icon-50@2x.png ...'
-# convert "$SRC_FILE" -resize 100x100 "$DST_PATH/Icon-50@2x.png"
+# magick "$SRC_FILE" -resize !100x100 "$DST_PATH/Icon-50@2x.png"
 
 info 'Generate Done.'

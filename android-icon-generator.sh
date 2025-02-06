@@ -1,17 +1,17 @@
 #!/bin/bash
 #
 # Copyright (C) 2014 Wenva <lvyexuwenfa100@126.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is furnished
 # to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,19 +28,19 @@ DST_PATH="$2"
 VERSION=1.0.0
 
 info() {
-     local green="\033[1;32m"
-     local normal="\033[0m"
-     echo -e "[${green}INFO${normal}] $1"
+    local green="\033[1;32m"
+    local normal="\033[0m"
+    echo -e "[${green}INFO${normal}] $1"
 }
 
 error() {
-     local red="\033[1;31m"
-     local normal="\033[0m"
-     echo -e "[${red}ERROR${normal}] $1"
+    local red="\033[1;31m"
+    local normal="\033[0m"
+    echo -e "[${red}ERROR${normal}] $1"
 }
 
 usage() {
-cat << EOF
+    cat <<EOF
 VERSION: $VERSION
 USAGE:
     $0 srcfile dstpath
@@ -66,11 +66,13 @@ EOF
 }
 
 # Check ImageMagick
-command -v convert >/dev/null 2>&1 || { error >&2 "The ImageMagick is not installed. Please use brew to install it first."; exit -1; }
+command -v magick >/dev/null 2>&1 || {
+    error >&2 "The ImageMagick is not installed. Please use brew to install it first."
+    exit -1
+}
 
 # Check param
-if [ $# != 2 ];
-then
+if [ $# != 2 ]; then
     usage
     exit -1
 fi
@@ -83,10 +85,10 @@ makeIcon() {
     mkdir -p "$LOUTPATH"
 
     # make rect icon
-    convert "$SRC_FILE" -resize $LSIZE! "$LOUTPATH/ic_launcher.png"
+    magick "$SRC_FILE" -resize $LSIZE! "$LOUTPATH/ic_icon.png"
 
     # make rounded icon
-    magick "$LOUTPATH/ic_launcher.png" \( +clone -threshold 101% -fill white -draw 'circle %[fx:int(w/2)],%[fx:int(h/2)] %[fx:int(w/2)],1' \) -channel-fx '| gray=>alpha' "$LOUTPATH/ic_launcher_round.png"
+    magick "$LOUTPATH/ic_icon.png" \( +clone -threshold 101% -fill white -draw 'circle %[fx:int(w/2)],%[fx:int(h/2)] %[fx:int(w/2)],1' \) -channel-fx '| gray=>alpha' "$LOUTPATH/ic_icon_round.png"
 }
 
 makeIcon "mipmap-mdpi" "48x48"
